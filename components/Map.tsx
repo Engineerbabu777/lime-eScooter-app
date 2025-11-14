@@ -2,6 +2,7 @@ import Mapbox, {
   Camera,
   CircleLayer,
   Images,
+  LineLayer,
   LocationPuck,
   MapView,
   ShapeSource,
@@ -10,6 +11,7 @@ import Mapbox, {
 import { featureCollection, point } from '@turf/helpers';
 import pin from '@/assets/pin.png';
 import scooters from '@/data/scooters.json';
+import routeResponse from '@/data/routes.json';
 
 const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 
@@ -17,6 +19,8 @@ Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
   const points = scooters?.map((scooter) => point([scooter.long, scooter.lat]));
+
+  const directionCoordinates = routeResponse.routes[0]?.geometry?.coordinates;
 
   const shapes = featureCollection(points);
   return (
@@ -51,7 +55,28 @@ export default function Map() {
         />
         <Images images={{ pin }} />
       </ShapeSource>
+
+      {directionCoordinates && (
+        <ShapeSource
+          id="routeSource"
+          lineMetrics
+          shape={{
+            properties: {},
+            type: 'Feature',
+            geometry: { type: 'LineString', coordinates: directionCoordinates },
+          }}>
+          <LineLayer
+            id="exampleLineLayer"
+            style={{
+              lineColor: '#42A2D9',
+              lineCap: 'round',
+              lineJoin: 'round',
+              lineWidth: 7,
+              //   lineDasharray: [5, 10],
+            }}
+          />
+        </ShapeSource>
+      )}
     </MapView>
   );
 }
-
