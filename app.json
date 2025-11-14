@@ -11,7 +11,7 @@
       "output": "static",
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-router"],
+
     "experiments": {
       "typedRoutes": true,
 
@@ -37,6 +37,15 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
-    }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "@rnmapbox/maps",
+        {
+          "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiZW5naW5lZXJhd2Fpczc3NyIsImEiOiJjbWh5ZHdoajAwYXloMmtzNTJ6d3lhZ3NkIn0.DgfbCIltyBUI9IKB40KKZg"
+        }
+      ]
+    ]
   }
 }
