@@ -4,10 +4,7 @@
     "slug": "lime-app",
     "version": "1.0.0",
     "scheme": "lime-app",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -25,9 +22,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.apple.eas.limeapp"
@@ -45,6 +40,12 @@
         "@rnmapbox/maps",
         {
           "RNMapboxMapsDownloadToken": "sk.eyJ1IjoiZW5naW5lZXJhd2Fpczc3NyIsImEiOiJjbWh5ZHdoajAwYXloMmtzNTJ6d3lhZ3NkIn0.DgfbCIltyBUI9IKB40KKZg"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Show current location on map."
         }
       ]
     ]
