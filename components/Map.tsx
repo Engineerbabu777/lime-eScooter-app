@@ -1,18 +1,9 @@
-import Mapbox, {
-  Camera,
-  CircleLayer,
-  Images,
-  LineLayer,
-  LocationPuck,
-  MapView,
-  ShapeSource,
-  SymbolLayer,
-} from '@rnmapbox/maps';
+import Mapbox, { Camera, LocationPuck, MapView } from '@rnmapbox/maps';
 import { featureCollection, point } from '@turf/helpers';
-import pin from '@/assets/pin.png';
 import scooters from '@/data/scooters.json';
 import { useScooter } from '@/providers/scooter-provider';
 import LineRoute from './LineRoute';
+import ScooterMarkers from './ScooterMarkers';
 
 const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 
@@ -39,37 +30,7 @@ export default function Map() {
 
       <LocationPuck pulsing={'default'} puckBearing="heading" puckBearingEnabled />
 
-      <ShapeSource id="scooters" shape={shapes} cluster onPress={onPointPress}>
-        <SymbolLayer
-          id="clusters-count"
-          style={{ textField: ['get', 'point_count'], textColor: '#fff' }}
-        />
-
-        <CircleLayer
-          id="clusters"
-          belowLayerID="clusters-count"
-          style={{
-            circleColor: '#42E100',
-            circlePitchAlignment: 'map',
-            circleRadius: 20,
-            circleOpacity: 1,
-            circleStrokeWidth: 2,
-            circleStrokeColor: 'white',
-          }}
-          filter={['has', 'point_count']}
-        />
-        <SymbolLayer
-          id="scooter-items"
-          style={{
-            iconImage: 'pin',
-            iconSize: 0.5,
-            iconAllowOverlap: true,
-            iconAnchor: 'bottom',
-          }}
-          filter={['!', ['has', 'point_count']]}
-        />
-        <Images images={{ pin }} />
-      </ShapeSource>
+      <ScooterMarkers onPointPress={onPointPress} shapes={shapes} />
 
       {directionCoordinates && <LineRoute coordinates={directionCoordinates} />}
     </MapView>
