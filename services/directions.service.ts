@@ -1,9 +1,14 @@
-export const getDirections = async () => {
+const BASE_URL = 'https://api.mapbox.com/directions/v5/mapbox';
+
+export const getDirections = async (from: [number, number], to: [number, number]) => {
+  console.log({ from, to });
   const response = await fetch(
-    'https://api.mapbox.com/directions/v5/mapbox/walking/2.161444%2C41.38641%3B2.172858%2C41.390303?alternatives=false&annotations=distance%2Cduration&continue_straight=true&geometries=geojson&overview=full&steps=false&access_token=pk.eyJ1IjoiZW5naW5lZXJhd2Fpczc3NyIsImEiOiJjbWV2Mnh3Z2cwNmwwMmlzN3ZqaXNjaTRyIn0.L_4Cf2FmaoRLYlZch0RGhw'
+    `${BASE_URL}/walking/${from[0]},${from[1]};${to[0]},${to[1]}?alternatives=false&annotations=distance%2Cduration&continue_straight=true&geometries=geojson&overview=full&steps=false&access_token=${process.env.EXPO_PUBLIC_MAP_BOX_KEY}`
   );
 
   const json = await response.json();
 
-  console.log({ json });
+  console.log(JSON.stringify(json, null, 2));
+
+  return json;
 };

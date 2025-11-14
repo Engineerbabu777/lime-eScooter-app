@@ -13,21 +13,34 @@ import pin from '@/assets/pin.png';
 import scooters from '@/data/scooters.json';
 import routeResponse from '@/data/routes.json';
 import { getDirections } from '@/services/directions.service';
+import { useState } from 'react';
+import * as Location from 'expo-location';
 
 const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 
 Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
+  const [direction, setDirection] = useState(null);
   const points = scooters?.map((scooter) => point([scooter.long, scooter.lat]));
 
-  const directionCoordinates = routeResponse.routes[0]?.geometry?.coordinates;
+  const directionCoordinates = direction?.routes?.[0]?.geometry?.coordinates;
 
   const shapes = featureCollection(points);
 
   const onPointPress = async (event: any) => {
-    getDirections();
+    console.log({ event });
+
+    const myLocation = await Location.getCurrentPositionAsync();
+
+    const newDirection = await getDirections(
+      [myLocation.coords.longitude, myLocation.coords.latitude],
+      [event.coordinates.longitude, event.coordinates.latitude]
+    );
+
+    setDirection(newDirection);
   };
+
   return (
     <MapView style={{ flex: 1 }} styleURL="mapbox://styles/mapbox/dark-v11">
       <Camera followUserLocation zoomLevel={16} />
@@ -55,7 +68,12 @@ export default function Map() {
         />
         <SymbolLayer
           id="scooter-items"
-          style={{ iconImage: 'pin', iconSize: 0.5, iconAllowOverlap: true, iconAnchor: 'bottom' }}
+          style={{
+            iconImage: 'pin',
+            iconSize: 0.5,
+            iconAllowOverlap: true,
+            iconAnchor: 'bottom',
+          }}
           filter={['!', ['has', 'point_count']]}
         />
         <Images images={{ pin }} />
