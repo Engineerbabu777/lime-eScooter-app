@@ -12,6 +12,7 @@ import { featureCollection, point } from '@turf/helpers';
 import pin from '@/assets/pin.png';
 import scooters from '@/data/scooters.json';
 import { useScooter } from '@/providers/scooter-provider';
+import LineRoute from './LineRoute';
 
 const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 
@@ -70,26 +71,7 @@ export default function Map() {
         <Images images={{ pin }} />
       </ShapeSource>
 
-      {directionCoordinates && (
-        <ShapeSource
-          id="routeSource"
-          lineMetrics
-          shape={{
-            properties: {},
-            type: 'Feature',
-            geometry: { type: 'LineString', coordinates: directionCoordinates },
-          }}>
-          <LineLayer
-            id="exampleLineLayer"
-            style={{
-              lineColor: '#42E100',
-              lineCap: 'round',
-              lineJoin: 'round',
-              lineWidth: 7,
-            }}
-          />
-        </ShapeSource>
-      )}
+      {directionCoordinates && <LineRoute coordinates={directionCoordinates} />}
     </MapView>
   );
 }
