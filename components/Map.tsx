@@ -1,6 +1,4 @@
 import Mapbox, { Camera, LocationPuck, MapView } from '@rnmapbox/maps';
-import { featureCollection, point } from '@turf/helpers';
-import scooters from '@/data/scooters.json';
 import { useScooter } from '@/providers/scooter-provider';
 import LineRoute from './LineRoute';
 import ScooterMarkers from './ScooterMarkers';
@@ -11,10 +9,6 @@ Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
   const { setSelectedScooter, directionCoordinates, routeDistance, routeTime } = useScooter();
-
-  const points = scooters?.map((scooter) => point([scooter.long, scooter.lat], { scooter }));
-
-  const shapes = featureCollection(points);
 
   const onPointPress = async (event: any) => {
     console.log({ event: event?.features[0]?.properties?.scooter });
@@ -30,7 +24,7 @@ export default function Map() {
 
       <LocationPuck pulsing={'default'} puckBearing="heading" puckBearingEnabled />
 
-      <ScooterMarkers onPointPress={onPointPress} shapes={shapes} />
+      <ScooterMarkers onPointPress={onPointPress} />
 
       {directionCoordinates && <LineRoute coordinates={directionCoordinates} />}
     </MapView>

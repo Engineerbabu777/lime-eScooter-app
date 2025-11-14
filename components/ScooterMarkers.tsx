@@ -1,13 +1,13 @@
 import { CircleLayer, Images, ShapeSource, SymbolLayer } from '@rnmapbox/maps';
 import pin from '@/assets/pin.png';
+import { featureCollection, point } from '@turf/helpers';
+import scooters from '@/data/scooters.json';
 
-export default function ScooterMarkers({
-  shapes,
-  onPointPress,
-}: {
-  shapes: any;
-  onPointPress: any;
-}) {
+export default function ScooterMarkers({ onPointPress }: { onPointPress: any }) {
+  const points = scooters?.map((scooter) => point([scooter.long, scooter.lat], { scooter }));
+
+  const shapes = featureCollection(points);
+
   return (
     <ShapeSource id="scooters" shape={shapes} cluster onPress={onPointPress}>
       <SymbolLayer
