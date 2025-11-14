@@ -1,6 +1,6 @@
 import { LineLayer, ShapeSource } from '@rnmapbox/maps';
 
-export default function LineRoute({ coordinates }: any) {
+export default function LineRoute({ coordinates }: { coordinates: any }) {
   return (
     <ShapeSource
       id="routeSource"
