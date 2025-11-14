@@ -15,6 +15,7 @@
     "@gorhom/bottom-sheet": "^5",
     "@react-navigation/native": "^7.1.6",
     "@rnmapbox/maps": "^10.2.7",
+    "@turf/distance": "^7.2.0",
     "@turf/helpers": "^7.2.0",
     "expo": "^54.0.0",
     "expo-constants": "~18.0.9",

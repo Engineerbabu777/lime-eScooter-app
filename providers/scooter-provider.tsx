@@ -1,6 +1,8 @@
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import * as Location from 'expo-location';
 import { getDirections } from '@/services/directions.service';
+import getDistance from '@turf/distance';
+import { point } from '@turf/helpers';
 
 const ScooterContext = createContext<any>({});
 
@@ -31,6 +33,25 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
     fetchDirections();
   }, [selectedScooter]);
 
+  useEffect(() => {
+    Location.watchPositionAsync({ distanceInterval: 10 }, (newLocation) => {
+      console.log('Location updated:', newLocation);
+
+      if (selectedScooter) {
+        const from = point([newLocation.coords.longitude, newLocation.coords.latitude]);
+        const to = point([selectedScooter.long, selectedScooter.lat]);
+
+        const distance = getDistance(from, to, { units: 'meters' });
+
+        console.log({ distance });
+
+        if (distance < 50) {
+          setIsNearBy(true);
+        }
+      }
+    });
+  }, []);
+
   return (
     <ScooterContext.Provider
       value={{
@@ -40,7 +61,7 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
         directionCoordinates,
         routeTime,
         routeDistance,
-        isNearby
+        isNearby,
       }}>
       {children}
     </ScooterContext.Provider>
