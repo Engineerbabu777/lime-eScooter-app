@@ -1,5 +1,10 @@
+import ScooterProvider from '@/providers/scooter-provider';
 import { Stack } from 'expo-router';
 
 export default function Layout() {
-  return <Stack />;
+  return (
+    <ScooterProvider>
+      <Stack />
+    </ScooterProvider>
+  );
 }

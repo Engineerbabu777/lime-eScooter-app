@@ -12,32 +12,26 @@ import { featureCollection, point } from '@turf/helpers';
 import pin from '@/assets/pin.png';
 import scooters from '@/data/scooters.json';
 import { getDirections } from '@/services/directions.service';
-import { useState } from 'react';
-import * as Location from 'expo-location';
+import { useEffect, useState } from 'react';
+import { useScooter } from '@/providers/scooter-provider';
 
 const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 
 Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
-  const [direction, setDirection] = useState(null);
-  const points = scooters?.map((scooter) => point([scooter.long, scooter.lat]));
+  const { setSelectedScooter, directionCoordinates } = useScooter();
 
-  const directionCoordinates = direction?.routes?.[0]?.geometry?.coordinates;
+  const points = scooters?.map((scooter) => point([scooter.long, scooter.lat], { scooter }));
 
   const shapes = featureCollection(points);
 
   const onPointPress = async (event: any) => {
-    console.log({ event });
+    console.log({ event: event?.features[0]?.properties?.scooter });
 
-    const myLocation = await Location.getCurrentPositionAsync();
-
-    const newDirection = await getDirections(
-      [myLocation.coords.longitude, myLocation.coords.latitude],
-      [event.coordinates.longitude, event.coordinates.latitude]
-    );
-
-    setDirection(newDirection);
+    if (event?.features[0]?.properties?.scooter) {
+      setSelectedScooter(event.features[0].properties.scooter);
+    }
   };
 
   return (
