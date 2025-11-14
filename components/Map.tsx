@@ -1,17 +1,15 @@
-import { Text, View } from 'react-native';
 import Mapbox, { Camera, LocationPuck, MapView } from '@rnmapbox/maps';
 
-const accessToken =
-  'pk.eyJ1IjoiZW5naW5lZXJhd2Fpczc3NyIsImEiOiJjbWV2Mnh3Z2cwNmwwMmlzN3ZqaXNjaTRyIn0.L_4Cf2FmaoRLYlZch0RGhw';
+const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 
-Mapbox.setAccessToken(accessToken);
+Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
   return (
     <MapView style={{ flex: 1 }} styleURL="mapbox://styles/mapbox/dark-v11">
-      <Camera followUserLocation />
+      <Camera followUserLocation zoomLevel={16} />
 
-      <LocationPuck />
+      <LocationPuck pulsing={'default'} puckBearing="heading" puckBearingEnabled />
     </MapView>
   );
 }
