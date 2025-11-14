@@ -11,7 +11,6 @@ import Mapbox, {
 import { featureCollection, point } from '@turf/helpers';
 import pin from '@/assets/pin.png';
 import scooters from '@/data/scooters.json';
-import routeResponse from '@/data/routes.json';
 import { getDirections } from '@/services/directions.service';
 import { useState } from 'react';
 import * as Location from 'expo-location';
@@ -95,7 +94,6 @@ export default function Map() {
               lineCap: 'round',
               lineJoin: 'round',
               lineWidth: 7,
-              //   lineDasharray: [5, 10],
             }}
           />
         </ShapeSource>
