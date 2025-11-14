@@ -7,7 +7,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { Button } from './Button';
 
 export default function SelectedScooterSheet() {
-  const { selectedScooter, routeDistance, routeTime } = useScooter();
+  const { selectedScooter, routeDistance, routeTime, isNearby } = useScooter();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
@@ -70,7 +70,7 @@ export default function SelectedScooterSheet() {
           </View>
 
           <View>
-            <Button title="Start journey" onPress={() => {}} />
+            <Button title="Start journey" onPress={() => {}} disabled={!isNearby} />
           </View>
         </BottomSheetView>
       </BottomSheet>

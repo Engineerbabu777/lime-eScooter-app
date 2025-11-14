@@ -8,6 +8,8 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
   const [selectedScooter, setSelectedScooter] = useState<any | null>(null);
   const [direction, setDirection] = useState<any>(null);
 
+  const [isNearby, setIsNearBy] = useState<boolean>(false);
+
   const directionCoordinates = direction?.routes?.[0]?.geometry?.coordinates;
   const routeTime = direction?.routes?.[0]?.duration;
   const routeDistance = direction?.routes?.[0]?.distance;
@@ -38,6 +40,7 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
         directionCoordinates,
         routeTime,
         routeDistance,
+        isNearby
       }}>
       {children}
     </ScooterContext.Provider>
