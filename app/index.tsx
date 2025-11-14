@@ -12,8 +12,8 @@ export default function Home() {
       <Map />
       <StatusBar barStyle={'light-content'} />
 
-      <BottomSheet snapPoints={[200]} enablePanDownToClose>
-        <BottomSheetView style={styles.contentContainer}>
+      <BottomSheet snapPoints={[200]} enablePanDownToClose >
+        <BottomSheetView style={styles.contentContainer} >
           <Text>Awesome 🎉</Text>
         </BottomSheetView>
       </BottomSheet>
