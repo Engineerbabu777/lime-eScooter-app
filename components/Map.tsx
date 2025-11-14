@@ -11,8 +11,6 @@ import Mapbox, {
 import { featureCollection, point } from '@turf/helpers';
 import pin from '@/assets/pin.png';
 import scooters from '@/data/scooters.json';
-import { getDirections } from '@/services/directions.service';
-import { useEffect, useState } from 'react';
 import { useScooter } from '@/providers/scooter-provider';
 
 const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
@@ -20,7 +18,7 @@ const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
-  const { setSelectedScooter, directionCoordinates } = useScooter();
+  const { setSelectedScooter, directionCoordinates, routeDistance, routeTime } = useScooter();
 
   const points = scooters?.map((scooter) => point([scooter.long, scooter.lat], { scooter }));
 

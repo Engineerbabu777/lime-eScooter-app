@@ -14,14 +14,16 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
 
   useEffect(() => {
     const fetchDirections = async () => {
-      const myLocation = await Location.getCurrentPositionAsync();
+      if (selectedScooter?.long && selectedScooter?.lat) {
+        const myLocation = await Location.getCurrentPositionAsync();
 
-      const newDirection = await getDirections(
-        [myLocation.coords.longitude, myLocation.coords.latitude],
-        [selectedScooter.long, selectedScooter.lat]
-      );
+        const newDirection = await getDirections(
+          [myLocation.coords.longitude, myLocation.coords.latitude],
+          [selectedScooter?.long, selectedScooter?.lat]
+        );
 
-      setDirection(newDirection);
+        setDirection(newDirection);
+      }
     };
 
     fetchDirections();
