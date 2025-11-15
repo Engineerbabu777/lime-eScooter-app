@@ -4,7 +4,6 @@ import { getDirections } from '@/services/directions.service';
 import getDistance from '@turf/distance';
 import { point } from '@turf/helpers';
 import { supabase } from '@/lib/supabse';
-import { Alert } from 'react-native';
 
 const ScooterContext = createContext<any>({});
 
