@@ -67,12 +67,12 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
 
         console.log({ distance });
 
-        if (distance < 50) {
+        if (distance < 200) {
           setIsNearBy(true);
         }
       }
     });
-  }, []);
+  }, [selectedScooter]);
 
   return (
     <ScooterContext.Provider
