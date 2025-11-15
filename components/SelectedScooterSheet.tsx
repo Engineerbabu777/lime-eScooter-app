@@ -5,8 +5,6 @@ import { Image, Text, View } from 'react-native';
 import ScooterImage from '@/assets/lime-scooter.png';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Button } from './Button';
-import { supabase } from '@/lib/supabse';
-import { useAuthProvider } from '@/providers/AuthProvider';
 import { useRideProvider } from '@/providers/RideProvider';
 
 export default function SelectedScooterSheet() {
