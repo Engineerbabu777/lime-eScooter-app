@@ -5,7 +5,7 @@ import { ActivityIndicator } from 'react-native';
 
 type AuthContextType = {
   isAuthenticated: boolean;
-  session: AuthSession | null;
+  session?: AuthSession | null;
 };
 const AuthContext = createContext<AuthContextType>({ isAuthenticated: false, session: null });
 
