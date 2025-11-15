@@ -8,7 +8,7 @@ const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
-  const { setSelectedScooter, directionCoordinates, routeDistance, routeTime } = useScooter();
+  const { setSelectedScooter, directionCoordinates } = useScooter();
 
   const onPointPress = async (event: any) => {
     console.log({ event: event?.features[0]?.properties?.scooter });
