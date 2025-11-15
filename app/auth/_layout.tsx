@@ -1,7 +1,7 @@
 import { useAuthProvider } from '@/providers/AuthProvider';
 import { Redirect, Slot } from 'expo-router';
 
-export default function HomeLayout() {
+export default function AuthLayout() {
   const { isAuthenticated } = useAuthProvider();
 
   if (isAuthenticated) {
