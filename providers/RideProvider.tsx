@@ -25,13 +25,13 @@ export default function RideProvider({ children }: PropsWithChildren) {
       console.log('Failed to start ride :/', { error });
     } else {
       console.log('Ride started:/ ', { data });
+
+      setRide(data);
     }
   };
 
   return (
-    <RideContext.Provider value={{ ride, setRide, startJourneyHandler }}>
-      {children}
-    </RideContext.Provider>
+    <RideContext.Provider value={{ ride, startJourneyHandler }}>{children}</RideContext.Provider>
   );
 }
 
