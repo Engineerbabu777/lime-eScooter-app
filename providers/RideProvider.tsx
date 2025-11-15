@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { supabase } from '@/lib/supabse';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useAuthProvider } from './AuthProvider';
@@ -16,7 +17,7 @@ export default function RideProvider({ children }: PropsWithChildren) {
         .from('rides')
         .select('*')
         .eq('user_id', session?.user?.id)
-        .is('finsihed_at', null);
+        .is('finished_at', null);
 
       if (error) {
         console.log('Failed to fetch active rides for me :/', { error });
@@ -40,7 +41,7 @@ export default function RideProvider({ children }: PropsWithChildren) {
       .insert([
         {
           user_id: session?.user?.id,
-          scooter_id: selectedScooter.id,
+          scooter_id: selectedScooter?.id,
         },
       ])
       .select();
@@ -50,7 +51,7 @@ export default function RideProvider({ children }: PropsWithChildren) {
     } else {
       console.log('Ride started:/ ', { data });
 
-      setRide(data);
+      setRide(data?.[0]);
     }
   };
 
