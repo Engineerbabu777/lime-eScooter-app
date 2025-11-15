@@ -1,7 +1,6 @@
 import { CircleLayer, Images, ShapeSource, SymbolLayer } from '@rnmapbox/maps';
 import pin from '@/assets/pin.png';
 import { featureCollection, point } from '@turf/helpers';
-import scooters from '@/data/scooters.json';
 import { useScooter } from '@/providers/scooter-provider';
 
 export default function ScooterMarkers({ onPointPress }: { onPointPress: any }) {
