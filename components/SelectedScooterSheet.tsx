@@ -7,30 +7,13 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { Button } from './Button';
 import { supabase } from '@/lib/supabse';
 import { useAuthProvider } from '@/providers/AuthProvider';
+import { useRideProvider } from '@/providers/RideProvider';
 
 export default function SelectedScooterSheet() {
   const { selectedScooter, routeDistance, routeTime, isNearby } = useScooter();
-  const { session } = useAuthProvider();
+  const { startJourneyHandler } = useRideProvider();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
-
-  const startJourneyHandler = async () => {
-    const { data, error } = await supabase
-      .from('rides')
-      .insert([
-        {
-          user_id: session?.user?.id,
-          scooter_id: selectedScooter.id,
-        },
-      ])
-      .select();
-
-    if (error) {
-      console.log('Failed to start ride :/', { error });
-    } else {
-      console.log('Ride started:/ ', { data });
-    }
-  };
 
   useEffect(() => {
     if (selectedScooter) {
