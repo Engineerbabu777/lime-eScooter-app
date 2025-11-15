@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Alert, StyleSheet, View, AppState } from 'react-native';
 import { Button, Input } from '@rneui/themed';
 import { supabase } from '@/lib/supabse';
+import { router } from 'expo-router';
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -22,12 +23,15 @@ export default function Auth() {
 
   async function signInWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error, data } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
 
     if (error) Alert.alert(error.message);
+    if (data?.user?.id) {
+      router.push('/(home)');
+    }
     setLoading(false);
   }
 
@@ -42,7 +46,9 @@ export default function Auth() {
     });
 
     if (error) Alert.alert(error.message);
-    if (!session) Alert.alert('Account Created!');
+    if (session?.user?.id) {
+      router.push('/(home)');
+    }
     setLoading(false);
   }
 
