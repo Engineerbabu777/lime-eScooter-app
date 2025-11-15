@@ -13,8 +13,11 @@
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
     "@gorhom/bottom-sheet": "^5",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/native": "^7.1.6",
+    "@rneui/themed": "^4.0.0-rc.8",
     "@rnmapbox/maps": "^10.2.7",
+    "@supabase/supabase-js": "^2.81.1",
     "@turf/distance": "^7.2.0",
     "@turf/helpers": "^7.2.0",
     "expo": "^54.0.0",
