@@ -19,7 +19,13 @@ export default function Map() {
   };
 
   return (
-    <MapView style={{ flex: 1 }} styleURL="mapbox://styles/mapbox/dark-v11">
+    <MapView
+      style={{ flex: 1 }}
+      styleURL="mapbox://styles/mapbox/dark-v11"
+      scaleBarEnabled={false}
+      attributionEnabled={false}
+      logoEnabled={false}
+      compassEnabled={false}>
       <Camera followUserLocation zoomLevel={16} />
 
       <LocationPuck pulsing={'default'} puckBearing="heading" puckBearingEnabled />
