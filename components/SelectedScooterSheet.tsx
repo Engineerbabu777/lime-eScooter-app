@@ -5,11 +5,32 @@ import { Image, Text, View } from 'react-native';
 import ScooterImage from '@/assets/lime-scooter.png';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Button } from './Button';
+import { supabase } from '@/lib/supabse';
+import { useAuthProvider } from '@/providers/AuthProvider';
 
 export default function SelectedScooterSheet() {
   const { selectedScooter, routeDistance, routeTime, isNearby } = useScooter();
+  const { session } = useAuthProvider();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const startJourneyHandler = async () => {
+    const { data, error } = await supabase
+      .from('rides')
+      .insert([
+        {
+          user_id: session?.user?.id,
+          scooter_id: selectedScooter.id,
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.log('Failed to start ride :/', { error });
+    } else {
+      console.log('Ride started:/ ', { data });
+    }
+  };
 
   useEffect(() => {
     if (selectedScooter) {
@@ -70,7 +91,7 @@ export default function SelectedScooterSheet() {
           </View>
 
           <View>
-            <Button title="Start journey" onPress={() => {}} disabled={!isNearby} />
+            <Button title="Start journey" onPress={startJourneyHandler} disabled={!isNearby} />
           </View>
         </BottomSheetView>
       </BottomSheet>
