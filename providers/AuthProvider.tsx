@@ -1,9 +1,13 @@
 import { supabase } from '@/lib/supabse';
-import { Session } from '@supabase/supabase-js';
+import { AuthSession, Session } from '@supabase/supabase-js';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 
-const AuthContext = createContext<null | any>({});
+type AuthContextType = {
+  isAuthenticated: boolean;
+  session: AuthSession | null;
+};
+const AuthContext = createContext<AuthContextType>({ isAuthenticated: false, session: null });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
