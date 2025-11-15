@@ -1,5 +1,5 @@
 import { supabase } from '@/lib/supabse';
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useAuthProvider } from './AuthProvider';
 import { useScooter } from './scooter-provider';
 
@@ -10,7 +10,31 @@ export default function RideProvider({ children }: PropsWithChildren) {
   const { session } = useAuthProvider();
   const { selectedScooter } = useScooter();
 
+  useEffect(() => {
+    const fetchActiveRide = async () => {
+      const { data, error } = await supabase
+        .from('rides')
+        .select('*')
+        .eq('user_id', session?.user?.id)
+        .is('finsihed_at', null);
+
+      if (error) {
+        console.log('Failed to fetch active rides for me :/', { error });
+      } else {
+        console.log('Ride Active:/ ', { data });
+
+        setRide(data);
+      }
+    };
+
+    fetchActiveRide();
+  }, []);
+
   const startJourneyHandler = async () => {
+    if (ride) {
+      return;
+    }
+
     const { data, error } = await supabase
       .from('rides')
       .insert([
