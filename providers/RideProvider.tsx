@@ -55,8 +55,30 @@ export default function RideProvider({ children }: PropsWithChildren) {
     }
   };
 
+  const finishRideJourney = async () => {
+    if (ride) {
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('rides')
+      .update({ finished_at: new Date() })
+      .eq('id', ride.id)
+      .select();
+
+    if (error) {
+      console.log('Failed to start ride :/', { error });
+    } else {
+      console.log('Ride finished:/ ', { data });
+
+      setRide(null);
+    }
+  };
+
   return (
-    <RideContext.Provider value={{ ride, startJourneyHandler }}>{children}</RideContext.Provider>
+    <RideContext.Provider value={{ ride, startJourneyHandler, finishRideJourney }}>
+      {children}
+    </RideContext.Provider>
   );
 }
 

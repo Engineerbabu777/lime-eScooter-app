@@ -11,13 +11,14 @@ export default function ActiveRideSheet() {
   useEffect(() => {
     if (ride) {
       bottomSheetRef.current?.expand();
+    } else {
+      bottomSheetRef.current?.close();
     }
   }, [ride]);
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
-      enableDynamicSizing
       index={-1}
       snapPoints={[250]}
       backgroundStyle={{
