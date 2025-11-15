@@ -1,81 +1,78 @@
-import { useScooter } from '@/providers/scooter-provider';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { useEffect, useRef } from 'react';
-import { Image, Text, View } from 'react-native';
-import ScooterImage from '@/assets/lime-scooter.png';
-import { FontAwesome6 } from '@expo/vector-icons';
+import { Text, View } from 'react-native';
 import { Button } from './Button';
 import { useRideProvider } from '@/providers/RideProvider';
 
 export default function ActiveRideSheet() {
-  const { selectedScooter, routeDistance, routeTime, isNearby } = useScooter();
-  const { startJourneyHandler } = useRideProvider();
-
+  const { ride } = useRideProvider();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   useEffect(() => {
-    if (selectedScooter) {
+    if (ride) {
       bottomSheetRef.current?.expand();
-      console.log({ selectedScooter });
     }
-  }, [selectedScooter]);
+  }, [ride]);
+
   return (
-    <>
-      <BottomSheet
-        ref={bottomSheetRef}
-        enableDynamicSizing
-        index={-1}
-        snapPoints={[200]}
-        backgroundStyle={{ backgroundColor: '#414442' }}
-        enablePanDownToClose>
+    <BottomSheet
+      ref={bottomSheetRef}
+      enableDynamicSizing
+      index={-1}
+      snapPoints={[250]}
+      backgroundStyle={{
+        backgroundColor: '#2F3130',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+      }}
+      handleIndicatorStyle={{
+        backgroundColor: '#777',
+        width: 40,
+      }}>
+      {ride && (
         <BottomSheetView
           style={{
             flex: 1,
-            padding: 10,
-            gap: 10,
+            padding: 20,
+            gap: 20,
           }}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-            <Image source={ScooterImage} style={{ width: 55, height: 55 }} />
-            <View style={{ flex: 1, gap: 1 }}>
-              <Text style={{ color: 'white', fontSize: 20, fontWeight: '600' }}>Lime - S</Text>
-              <Text style={{ color: 'gray', fontSize: 16 }}>
-                id-{selectedScooter?.id || 'X'} · Medison Avenue
-              </Text>
-            </View>
+          {/* Title */}
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '600',
+              color: 'white',
+            }}>
+            Ride In Progress
+          </Text>
 
-            <View style={{ gap: 5 }}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 5,
-                  alignSelf: 'flex-start',
-                }}>
-                <FontAwesome6 name="flag-checkered" size={18} color="#42E100" />
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>
-                  {(routeDistance / 1000).toFixed(1)} km
-                </Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  gap: 5,
-                  alignSelf: 'flex-start',
-                }}>
-                <FontAwesome6 name="clock" size={18} color="#42E100" />
-                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 18 }}>
-                  {(routeTime / 60).toFixed(0)} min
-                </Text>
-              </View>
-            </View>
+          {/* Info container */}
+          <View
+            style={{
+              backgroundColor: '#3C3F3D',
+              padding: 15,
+              borderRadius: 12,
+            }}>
+            <Text
+              style={{
+                color: '#D0D0D0',
+                fontSize: 16,
+              }}>
+              You&apos;re currently riding a scooter.
+            </Text>
           </View>
 
-          <View>
-            <Button title="Start journey" onPress={startJourneyHandler} disabled={!isNearby} />
-          </View>
+          <Button
+            title="Finish Journey"
+            onPress={() => {}}
+            style={{
+              backgroundColor: '#4CAF50',
+              borderRadius: 12,
+              paddingVertical: 14,
+            }}
+          />
         </BottomSheetView>
-      </BottomSheet>
-    </>
+      )}
+    </BottomSheet>
   );
 }

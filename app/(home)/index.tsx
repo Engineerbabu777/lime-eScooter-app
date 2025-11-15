@@ -4,6 +4,7 @@ import { StatusBar } from 'react-native';
 
 import Map from '@/components/Map';
 import SelectedScooterSheet from '@/components/SelectedScooterSheet';
+import ActiveRideSheet from '@/components/ActiveRideSheet';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <StatusBar barStyle={'light-content'} />
 
       <SelectedScooterSheet />
+      <ActiveRideSheet />
     </>
   );
 }

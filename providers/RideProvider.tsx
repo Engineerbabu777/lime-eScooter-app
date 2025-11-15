@@ -24,7 +24,7 @@ export default function RideProvider({ children }: PropsWithChildren) {
       } else {
         console.log('Ride Active:/ ', { data });
 
-        setRide(data);
+        setRide(data?.[0]);
       }
     };
 
