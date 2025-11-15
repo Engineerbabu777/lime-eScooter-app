@@ -8,7 +8,7 @@ export default function Layout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
         <ScooterProvider>
-          <Stack />
+          <Stack screenOptions={{ headerShown: false }} />
         </ScooterProvider>
       </AuthProvider>
     </GestureHandlerRootView>

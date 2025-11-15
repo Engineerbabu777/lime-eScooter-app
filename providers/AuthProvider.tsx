@@ -23,7 +23,11 @@ export default function AuthProvider({ children }: PropsWithChildren) {
     return <ActivityIndicator />;
   }
 
-  return <AuthContext.Provider value={{ session }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ session, isAuthenticated: !!session?.user?.id }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export const useAuthProvider = () => useContext(AuthContext);
