@@ -10,7 +10,11 @@ export default function ActiveRideSheet() {
 
   useEffect(() => {
     if (ride) {
-      bottomSheetRef.current?.expand();
+      // Delay ensures the sheet is mounted
+      const timeout = setTimeout(() => {
+        bottomSheetRef.current?.expand();
+      }, 100);
+      return () => clearTimeout(timeout);
     } else {
       bottomSheetRef.current?.close();
     }
