@@ -7,7 +7,7 @@ export default function LineRoute({
   coordinates: any[];
   id?: string;
 }) {
-  console.log(coordinates);
+  console.log({ coordinates });
   return (
     <ShapeSource
       id={id}

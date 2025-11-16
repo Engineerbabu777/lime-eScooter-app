@@ -34,7 +34,7 @@ export default function Map() {
 
       <LocationPuck pulsing={'default'} puckBearing="heading" puckBearingEnabled />
 
-      {rideRoute && <LineRoute coordinates={rideRoute} />}
+      {rideRoute && <LineRoute coordinates={rideRoute} id="rideRoute" />}
 
       {showMarkers && (
         <>

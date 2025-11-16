@@ -97,19 +97,19 @@ export default function RideProvider({ children }: PropsWithChildren) {
 
     console.log({ actualRoute });
 
-    const { data, error } = await supabase
-      .from('rides')
-      .update({ finished_at: new Date() })
-      .eq('id', ride.id)
-      .select();
+    // const { data, error } = await supabase
+    //   .from('rides')
+    //   .update({ finished_at: new Date() })
+    //   .eq('id', ride.id)
+    //   .select();
 
-    if (error) {
-      console.log('Failed to start ride :/', { error });
-    } else {
-      console.log('Ride finished:/ ', { data });
+    // if (error) {
+    //   console.log('Failed to start ride :/', { error });
+    // } else {
+    //   console.log('Ride finished:/ ', { data });
 
-      setRide(null);
-    }
+    //   setRide(null);
+    // }
   };
 
   return (
