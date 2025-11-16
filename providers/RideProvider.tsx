@@ -3,13 +3,16 @@ import { supabase } from '@/lib/supabse';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useAuthProvider } from './AuthProvider';
 import { useScooter } from './scooter-provider';
+import * as Location from 'expo-location';
+import { point } from '@turf/helpers';
+import getDistance from '@turf/distance';
 
 const RideContext = createContext<any>({});
 
 export default function RideProvider({ children }: PropsWithChildren) {
   const [ride, setRide] = useState<any>(null);
   const { session } = useAuthProvider();
-  const { selectedScooter } = useScooter();
+  const { selectedScooter, setIsNearBy } = useScooter();
 
   useEffect(() => {
     const fetchActiveRide = async () => {
@@ -30,6 +33,35 @@ export default function RideProvider({ children }: PropsWithChildren) {
 
     fetchActiveRide();
   }, []);
+
+  useEffect(() => {
+    let subscription: Location.LocationSubscription | undefined;
+
+    const watchLocation = async () => {
+      subscription = await Location.watchPositionAsync({ distanceInterval: 30 }, (newLocation) => {
+        console.log('New location: ', newLocation.coords.longitude, newLocation.coords.latitude);
+        // setRideRoute((currrRoute) => [
+        //   ...currrRoute,
+        //   [newLocation.coords.longitude, newLocation.coords.latitude],
+        // ]);
+        // const from = point([newLocation.coords.longitude, newLocation.coords.latitude]);
+        // const to = point([selectedScooter.long, selectedScooter.lat]);
+        // const distance = getDistance(from, to, { units: 'meters' });
+        // if (distance < 100) {
+        //   setIsNearby(true);
+        // }
+      });
+    };
+
+    if (ride) {
+      watchLocation();
+    }
+
+    // unsubscribe
+    return () => {
+      subscription?.remove();
+    };
+  }, [ride]);
 
   const startJourneyHandler = async () => {
     if (ride) {
