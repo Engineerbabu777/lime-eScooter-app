@@ -5,7 +5,7 @@ import { Button } from './Button';
 import { useRideProvider } from '@/providers/RideProvider';
 
 export default function ActiveRideSheet() {
-  const { ride } = useRideProvider();
+  const { ride, finishRideJourney } = useRideProvider();
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   useEffect(() => {
@@ -69,7 +69,9 @@ export default function ActiveRideSheet() {
 
           <Button
             title="Finish Journey"
-            onPress={() => {}}
+            onPress={() => {
+              finishRideJourney();
+            }}
             style={{
               backgroundColor: '#4CAF50',
               borderRadius: 12,

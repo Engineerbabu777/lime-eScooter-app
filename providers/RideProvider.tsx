@@ -56,10 +56,6 @@ export default function RideProvider({ children }: PropsWithChildren) {
   };
 
   const finishRideJourney = async () => {
-    if (ride) {
-      return;
-    }
-
     const { data, error } = await supabase
       .from('rides')
       .update({ finished_at: new Date() })
