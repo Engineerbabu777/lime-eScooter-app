@@ -1,15 +1,24 @@
 import { LineLayer, ShapeSource } from '@rnmapbox/maps';
 
-export default function LineRoute({ coordinates }: { coordinates: any }) {
-  console.log({ coordinates });
+export default function LineRoute({
+  coordinates,
+  id = 'routeSource',
+}: {
+  coordinates: any[];
+  id?: string;
+}) {
+  console.log(coordinates);
   return (
     <ShapeSource
-      id="routeSource"
+      id={id}
       lineMetrics
       shape={{
         properties: {},
         type: 'Feature',
-        geometry: { type: 'LineString', coordinates },
+        geometry: {
+          type: 'LineString',
+          coordinates,
+        },
       }}>
       <LineLayer
         id="exampleLineLayer"

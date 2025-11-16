@@ -6,6 +6,7 @@ import { useScooter } from './scooter-provider';
 import * as Location from 'expo-location';
 import { point } from '@turf/helpers';
 import getDistance from '@turf/distance';
+import { fetchDirectionBasedOnCoords } from '@/services/directions.service';
 
 const RideContext = createContext<any>({});
 
@@ -92,6 +93,10 @@ export default function RideProvider({ children }: PropsWithChildren) {
   };
 
   const finishRideJourney = async () => {
+    const actualRoute = await fetchDirectionBasedOnCoords(rideRoute);
+
+    console.log({ actualRoute });
+
     const { data, error } = await supabase
       .from('rides')
       .update({ finished_at: new Date() })
