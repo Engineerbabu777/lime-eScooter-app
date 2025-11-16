@@ -95,21 +95,30 @@ export default function RideProvider({ children }: PropsWithChildren) {
   const finishRideJourney = async () => {
     const actualRoute = await fetchDirectionBasedOnCoords(rideRoute);
 
+    const rideRouteCoords = actualRoute.matchings[0].geometry.coordinates;
+    const rideRouteDuration = actualRoute.matchings[0].duration;
+    const rideRouteDistance = actualRoute.matchings[0].distance;
     console.log({ actualRoute });
 
-    // const { data, error } = await supabase
-    //   .from('rides')
-    //   .update({ finished_at: new Date() })
-    //   .eq('id', ride.id)
-    //   .select();
+    setRideRoute(actualRoute.matchings?.[0]?.geometry.coordinates);
 
-    // if (error) {
-    //   console.log('Failed to start ride :/', { error });
-    // } else {
-    //   console.log('Ride finished:/ ', { data });
+    const { error, data } = await supabase
+      .from('rides')
+      .update({
+        finished_at: new Date(),
+        routeDuration: rideRouteDuration,
+        routeDistance: rideRouteDistance,
+        routeCoords: rideRouteCoords,
+      })
+      .eq('id', ride.id);
 
-    //   setRide(null);
-    // }
+    if (error) {
+      console.log('Failed to start ride :/', { error });
+    } else {
+      console.log('Ride finished:/ ', { data });
+
+      setRide(null);
+    }
   };
 
   return (
