@@ -48,6 +48,9 @@ export default function ScooterProvider({ children }: PropsWithChildren) {
         );
 
         setDirection(newDirection);
+      } else {
+        setDirection(null);
+        setIsNearBy(true);
       }
     };
 

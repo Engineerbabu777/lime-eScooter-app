@@ -8,7 +8,7 @@ import { Button } from './Button';
 import { useRideProvider } from '@/providers/RideProvider';
 
 export default function SelectedScooterSheet() {
-  const { selectedScooter, routeDistance, routeTime, isNearby } = useScooter();
+  const { selectedScooter, routeDistance, routeTime, isNearby, setSelectedScooter } = useScooter();
   const { startJourneyHandler } = useRideProvider();
 
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -17,6 +17,8 @@ export default function SelectedScooterSheet() {
     if (selectedScooter) {
       bottomSheetRef.current?.expand();
       console.log({ selectedScooter });
+    } else {
+      bottomSheetRef.current?.close();
     }
   }, [selectedScooter]);
   return (
@@ -27,6 +29,9 @@ export default function SelectedScooterSheet() {
         index={-1}
         snapPoints={[200]}
         backgroundStyle={{ backgroundColor: '#414442' }}
+        onClose={() => {
+          setSelectedScooter(null);
+        }}
         enablePanDownToClose>
         <BottomSheetView
           style={{
@@ -72,7 +77,14 @@ export default function SelectedScooterSheet() {
           </View>
 
           <View>
-            <Button title="Start journey" onPress={startJourneyHandler} disabled={!isNearby} />
+            <Button
+              title="Start journey"
+              onPress={() => {
+                startJourneyHandler();
+                setSelectedScooter(null);
+              }}
+              disabled={!isNearby}
+            />
           </View>
         </BottomSheetView>
       </BottomSheet>

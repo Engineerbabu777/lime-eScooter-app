@@ -2,6 +2,7 @@ import Mapbox, { Camera, LocationPuck, MapView } from '@rnmapbox/maps';
 import { useScooter } from '@/providers/scooter-provider';
 import LineRoute from './LineRoute';
 import ScooterMarkers from './ScooterMarkers';
+import { useRideProvider } from '@/providers/RideProvider';
 
 const accessToken = process.env.EXPO_PUBLIC_MAP_BOX_KEY;
 
@@ -9,6 +10,9 @@ Mapbox.setAccessToken(accessToken || '');
 
 export default function Map() {
   const { setSelectedScooter, directionCoordinates } = useScooter();
+
+  const { ride } = useRideProvider();
+  const showMarkers = !ride;
 
   const onPointPress = async (event: any) => {
     console.log({ event: event?.features[0]?.properties?.scooter });
@@ -30,9 +34,12 @@ export default function Map() {
 
       <LocationPuck pulsing={'default'} puckBearing="heading" puckBearingEnabled />
 
-      <ScooterMarkers onPointPress={onPointPress} />
-
-      {directionCoordinates && <LineRoute coordinates={directionCoordinates} />}
+      {showMarkers && (
+        <>
+          <ScooterMarkers onPointPress={onPointPress} />
+          {directionCoordinates && <LineRoute coordinates={directionCoordinates} />}
+        </>
+      )}
     </MapView>
   );
 }
