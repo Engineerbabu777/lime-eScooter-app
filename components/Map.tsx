@@ -11,7 +11,7 @@ Mapbox.setAccessToken(accessToken || '');
 export default function Map() {
   const { setSelectedScooter, directionCoordinates } = useScooter();
 
-  const { ride } = useRideProvider();
+  const { ride, rideRoute } = useRideProvider();
   const showMarkers = !ride;
 
   const onPointPress = async (event: any) => {
@@ -33,6 +33,8 @@ export default function Map() {
       <Camera followUserLocation zoomLevel={16} />
 
       <LocationPuck pulsing={'default'} puckBearing="heading" puckBearingEnabled />
+
+      {rideRoute && <LineRoute coordinates={rideRoute} />}
 
       {showMarkers && (
         <>

@@ -12,6 +12,7 @@ const RideContext = createContext<any>({});
 export default function RideProvider({ children }: PropsWithChildren) {
   const [ride, setRide] = useState<any>(null);
   const { session } = useAuthProvider();
+  const [rideRoute, setRideRoute] = useState<any>([]);
   const { selectedScooter, setIsNearBy } = useScooter();
 
   useEffect(() => {
@@ -38,12 +39,15 @@ export default function RideProvider({ children }: PropsWithChildren) {
     let subscription: Location.LocationSubscription | undefined;
 
     const watchLocation = async () => {
-      subscription = await Location.watchPositionAsync({ distanceInterval: 30 }, (newLocation) => {
+      subscription = await Location.watchPositionAsync({ distanceInterval: 15 }, (newLocation) => {
         console.log('New location: ', newLocation.coords.longitude, newLocation.coords.latitude);
-        // setRideRoute((currrRoute) => [
-        //   ...currrRoute,
-        //   [newLocation.coords.longitude, newLocation.coords.latitude],
-        // ]);
+        setRideRoute((currrRoute: any) => [
+          ...currrRoute,
+          [newLocation.coords.longitude, newLocation.coords.latitude],
+        ]);
+
+        console.log({ rideRoute });
+
         // const from = point([newLocation.coords.longitude, newLocation.coords.latitude]);
         // const to = point([selectedScooter.long, selectedScooter.lat]);
         // const distance = getDistance(from, to, { units: 'meters' });
@@ -104,7 +108,7 @@ export default function RideProvider({ children }: PropsWithChildren) {
   };
 
   return (
-    <RideContext.Provider value={{ ride, startJourneyHandler, finishRideJourney }}>
+    <RideContext.Provider value={{ ride, startJourneyHandler, finishRideJourney, rideRoute }}>
       {children}
     </RideContext.Provider>
   );
